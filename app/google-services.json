@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "219126527526",
+    "project_id": "livo-test-8d598",
+    "storage_bucket": "livo-test-8d598.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:219126527526:android:95bf596530163757c198e7",
+        "android_client_info": {
+          "package_name": "tj.emin.livotestt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "219126527526-r5dmfniliilq7aa6gn84bob1l4ls7vd1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3t_5QNxS9ysr6kcEFE7yz9f5PUV_raH8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "219126527526-r5dmfniliilq7aa6gn84bob1l4ls7vd1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:219126527526:android:49bcb8f133105105c198e7",
+        "android_client_info": {
+          "package_name": "tj.emin.testapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "219126527526-r5dmfniliilq7aa6gn84bob1l4ls7vd1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3t_5QNxS9ysr6kcEFE7yz9f5PUV_raH8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "219126527526-r5dmfniliilq7aa6gn84bob1l4ls7vd1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
