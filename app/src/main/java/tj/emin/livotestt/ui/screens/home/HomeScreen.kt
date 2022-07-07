@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.sp
 import tj.emin.livotestt.Constants
 import tj.emin.testapp.R
 import tj.emin.livotestt.data.FirebaseRepository
@@ -26,8 +27,9 @@ fun HomeScreen(activity: Activity) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         FirebaseRepository.auth.currentUser?.let {
-            Text(text = it.email ?: "")
+            Text(text = stringResource(id = R.string.welcome), fontSize = 24.sp)
             SpacerBetweenObjects()
+            Text(text = it.email ?: "")
         }
         MediumSpacer()
 
@@ -38,7 +40,7 @@ fun HomeScreen(activity: Activity) {
                 activity.finish()
             }
         ) {
-            Text(text = stringResource(id = R.string.submit))
+            Text(text = stringResource(id = R.string.signout))
         }
     }
 }

@@ -27,7 +27,7 @@ object FirebaseRepository {
     }
 
     fun login(activity: Activity, email: String, password: String, onSuccess: () -> Unit) {
-        auth.createUserWithEmailAndPassword(email, password)
+        auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful)
                     onSuccess()
