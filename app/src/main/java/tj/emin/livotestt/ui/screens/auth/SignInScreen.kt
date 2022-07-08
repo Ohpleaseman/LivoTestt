@@ -69,7 +69,7 @@ fun SignInScreen(activity: FragmentActivity, navController: NavHostController) {
 
         LoginTextField(
             field = userEmail,
-            label = stringResource(id = R.string.user_name_label),
+            label = stringResource(id = R.string.user_email_label),
             imeAction = ImeAction.Next,
             imeActionLambda = { focusManager.moveFocus(FocusDirection.Next) }
         )
