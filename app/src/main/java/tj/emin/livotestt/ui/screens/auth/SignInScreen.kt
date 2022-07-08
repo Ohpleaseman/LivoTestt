@@ -1,15 +1,11 @@
 package tj.emin.livotestt.ui.screens.auth
 
-import android.app.Activity
 import android.content.Intent
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
+import androidx.biometric.BiometricManager
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -17,19 +13,40 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.unit.dp
+import androidx.fragment.app.FragmentActivity
 import androidx.navigation.NavHostController
+import tj.emin.livotestt.BiometricPromptUtils
 import tj.emin.livotestt.Constants
 import tj.emin.livotestt.MainActivity
-import tj.emin.testapp.R
 import tj.emin.livotestt.data.FirebaseRepository
 import tj.emin.livotestt.ui.LoginTextField
+import tj.emin.livotestt.ui.common.MediumSpacer
 import tj.emin.livotestt.ui.common.SpacerBetweenObjects
 import tj.emin.livotestt.ui.navigation.Screen
+import tj.emin.testapp.R
 
 @Composable
-fun SignInScreen(activity: Activity, navController: NavHostController) {
+fun SignInScreen(activity: FragmentActivity, navController: NavHostController) {
+    val context = LocalContext.current
+
+    val canAuthenticateWithBiometric =
+        BiometricManager.from(activity).canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS
+
+    fun toMainActivity() = context.startActivity(Intent(context, MainActivity::class.java))
+
+    val biometricPrompt = BiometricPromptUtils.createBiometricPrompt(activity) {
+        toMainActivity()
+    }
+    val promptInfo = BiometricPromptUtils.createPromptInfo(activity)
+
+    LaunchedEffect(key1 = true) {
+        if (canAuthenticateWithBiometric) biometricPrompt.authenticate(promptInfo)
+    }
+
     Column(
         Modifier
             .fillMaxSize()
@@ -37,7 +54,6 @@ fun SignInScreen(activity: Activity, navController: NavHostController) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         val focusManager = LocalFocusManager.current
-        val context = LocalContext.current
 
         val userEmail = remember { mutableStateOf("") }
         val userPassword = remember { mutableStateOf("") }
@@ -47,9 +63,7 @@ fun SignInScreen(activity: Activity, navController: NavHostController) {
                 activity,
                 userEmail.value,
                 userPassword.value,
-                onSuccess = {
-                    context.startActivity(Intent(context, MainActivity::class.java))
-                }
+                onSuccess = { toMainActivity() }
             )
         }
 
@@ -88,6 +102,22 @@ fun SignInScreen(activity: Activity, navController: NavHostController) {
             onClick = { navController.navigate(Screen.SignUpScreen.route) }
         ) {
             Text(text = stringResource(id = R.string.signup))
+        }
+        MediumSpacer()
+
+        if (canAuthenticateWithBiometric) {
+            IconButton(
+                modifier = Modifier.size(80.dp),
+                onClick = {
+                    biometricPrompt.authenticate(promptInfo)
+                }
+            ) {
+                Icon(
+                    modifier = Modifier.fillMaxSize(),
+                    painter = painterResource(id = R.drawable.ic_baseline_fingerprint_24),
+                    contentDescription = null
+                )
+            }
         }
     }
 }

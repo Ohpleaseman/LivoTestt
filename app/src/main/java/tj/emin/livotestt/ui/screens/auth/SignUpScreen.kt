@@ -21,11 +21,12 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.navigation.NavHostController
 import tj.emin.livotestt.Constants
 import tj.emin.livotestt.MainActivity
-import tj.emin.testapp.R
 import tj.emin.livotestt.data.FirebaseRepository
+import tj.emin.livotestt.data.model.User
 import tj.emin.livotestt.ui.LoginTextField
 import tj.emin.livotestt.ui.common.SpacerBetweenObjects
 import tj.emin.livotestt.ui.navigation.Screen
+import tj.emin.testapp.R
 
 @Composable
 fun SignUpScreen(activity: Activity, navController: NavHostController) {
@@ -38,12 +39,30 @@ fun SignUpScreen(activity: Activity, navController: NavHostController) {
         val focusManager = LocalFocusManager.current
         val context = LocalContext.current
 
+        val userName = remember { mutableStateOf("") }
         val userEmail = remember { mutableStateOf("") }
+        val userPhone = remember { mutableStateOf("") }
         val userPassword = remember { mutableStateOf("") }
 
         LoginTextField(
-            field = userEmail,
+            field = userName,
             label = stringResource(id = R.string.user_name_label),
+            imeAction = ImeAction.Next,
+            imeActionLambda = { focusManager.moveFocus(FocusDirection.Next) }
+        )
+        SpacerBetweenObjects()
+
+        LoginTextField(
+            field = userEmail,
+            label = stringResource(id = R.string.user_email_label),
+            imeAction = ImeAction.Next,
+            imeActionLambda = { focusManager.moveFocus(FocusDirection.Next) }
+        )
+        SpacerBetweenObjects()
+
+        LoginTextField(
+            field = userPhone,
+            label = stringResource(id = R.string.user_phone_label),
             imeAction = ImeAction.Next,
             imeActionLambda = { focusManager.moveFocus(FocusDirection.Next) }
         )
@@ -66,6 +85,7 @@ fun SignUpScreen(activity: Activity, navController: NavHostController) {
                     activity,
                     userEmail.value,
                     userPassword.value,
+                    User(userEmail.value, userPhone.value, userName.value),
                     onSuccess = { navController.navigate(Screen.SignInScreen.route) }
                 )
             }

@@ -1,6 +1,7 @@
 package tj.emin.livotestt.ui.navigation
 
 import android.app.Activity
+import androidx.fragment.app.FragmentActivity
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -10,7 +11,7 @@ import tj.emin.livotestt.ui.screens.auth.SignInScreen
 import tj.emin.livotestt.ui.screens.auth.SignUpScreen
 
 fun NavGraphBuilder.authGraph(
-    activity: Activity,
+    activity: FragmentActivity,
     navController: NavHostController
 ) {
     navigation(
