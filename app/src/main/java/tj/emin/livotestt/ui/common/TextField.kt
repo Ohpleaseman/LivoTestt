@@ -1,4 +1,4 @@
-package tj.emin.livotestt.ui
+package tj.emin.livotestt.ui.common
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
@@ -16,7 +16,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 
 @Composable
-fun LoginTextField(
+fun TextField(
     field: MutableState<String>,
     label: String,
     imeAction: ImeAction,
@@ -30,7 +30,7 @@ fun LoginTextField(
         onValueChange = { field.value = it },
         shape = RectangleShape,
         keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Phone,
+            keyboardType = KeyboardType.Text,
             imeAction = imeAction
         ),
         keyboardActions = KeyboardActions(

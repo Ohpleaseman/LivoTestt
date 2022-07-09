@@ -23,7 +23,7 @@ import tj.emin.livotestt.BiometricPromptUtils
 import tj.emin.livotestt.Constants
 import tj.emin.livotestt.MainActivity
 import tj.emin.livotestt.data.FirebaseRepository
-import tj.emin.livotestt.ui.LoginTextField
+import tj.emin.livotestt.ui.common.TextField
 import tj.emin.livotestt.ui.common.MediumSpacer
 import tj.emin.livotestt.ui.common.SpacerBetweenObjects
 import tj.emin.livotestt.ui.navigation.Screen
@@ -67,7 +67,7 @@ fun SignInScreen(activity: FragmentActivity, navController: NavHostController) {
             )
         }
 
-        LoginTextField(
+        TextField(
             field = userEmail,
             label = stringResource(id = R.string.user_email_label),
             imeAction = ImeAction.Next,
@@ -75,7 +75,7 @@ fun SignInScreen(activity: FragmentActivity, navController: NavHostController) {
         )
         SpacerBetweenObjects()
 
-        LoginTextField(
+        TextField(
             field = userPassword,
             label = stringResource(id = R.string.user_password_label),
             imeAction = ImeAction.Done,

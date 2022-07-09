@@ -20,7 +20,7 @@ import androidx.navigation.NavHostController
 import tj.emin.livotestt.Constants
 import tj.emin.testapp.R
 import tj.emin.livotestt.data.FirebaseRepository
-import tj.emin.livotestt.ui.LoginTextField
+import tj.emin.livotestt.ui.common.TextField
 import tj.emin.livotestt.ui.common.SpacerBetweenObjects
 import tj.emin.livotestt.ui.navigation.Screen
 
@@ -36,7 +36,7 @@ fun ResetPasswordScreen(activity: Activity, navController: NavHostController) {
 
         val userEmail = remember { mutableStateOf("") }
 
-        LoginTextField(
+        TextField(
             field = userEmail,
             label = stringResource(id = R.string.user_email_label),
             imeAction = ImeAction.Done,

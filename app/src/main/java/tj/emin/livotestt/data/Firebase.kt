@@ -20,24 +20,35 @@ object FirebaseRepository {
             Toast.LENGTH_LONG
         ).show()
 
-    fun createUser(activity: Activity, email: String, password: String, user: User, onSuccess: () -> Unit) {
-        auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener(activity) { task ->
-                if (task.isSuccessful) {
-                    saveUser(user, onSuccess)
-                } else
-                    toastFailure(activity, task)
-            }
+    fun createUser(
+        activity: Activity,
+        email: String,
+        password: String,
+        user: User,
+        onSuccess: () -> Unit
+    ) {
+        if (email.isNotBlank() && password.isNotBlank())
+            auth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(activity) { task ->
+                    if (task.isSuccessful) {
+                        saveUser(user, onSuccess)
+                    } else
+                        toastFailure(activity, task)
+                }
+        else Toast.makeText(activity, R.string.field_empty, Toast.LENGTH_SHORT).show()
     }
 
     fun login(activity: Activity, email: String, password: String, onSuccess: () -> Unit) {
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(activity) { task ->
-                if (task.isSuccessful)
-                    onSuccess()
-                else
-                    toastFailure(activity, task)
-            }
+        if (email.isNotBlank() && password.isNotBlank()){
+            auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(activity) { task ->
+                    if (task.isSuccessful)
+                        onSuccess()
+                    else
+                        toastFailure(activity, task)
+                }
+        }
+        else Toast.makeText(activity, R.string.field_empty, Toast.LENGTH_SHORT).show()
     }
 
     fun logOut() {
@@ -45,26 +56,29 @@ object FirebaseRepository {
     }
 
     fun resetPassword(activity: Activity, email: String, onSuccess: () -> Unit) {
-        auth.sendPasswordResetEmail(email)
-            .addOnCompleteListener(activity) { task ->
-                if (task.isSuccessful) {
-                    onSuccess()
-                    Toast.makeText(
-                        activity, activity.getString(R.string.reset_password_request_sent),
-                        Toast.LENGTH_LONG
-                    ).show()
-                } else {
-                    Toast.makeText(
-                        activity, task.exception?.localizedMessage,
-                        Toast.LENGTH_LONG
-                    ).show()
+        if (email.isNotBlank())
+            auth.sendPasswordResetEmail(email)
+                .addOnCompleteListener(activity) { task ->
+                    if (task.isSuccessful) {
+                        onSuccess()
+                        Toast.makeText(
+                            activity, activity.getString(R.string.reset_password_request_sent),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    } else {
+                        Toast.makeText(
+                            activity, task.exception?.localizedMessage,
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
                 }
-            }
+        else Toast.makeText(activity, R.string.field_empty, Toast.LENGTH_SHORT).show()
     }
 
     private fun saveUser(user: User, onSuccess: () -> Unit) {
 
         val uid = auth.uid.toString()
+        //if(user.)
         userCollection.document(uid).set(user).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 onSuccess()
