@@ -11,6 +11,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
@@ -19,10 +20,13 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.navigation.NavHostController
+import kotlinx.coroutines.launch
 import tj.emin.livotestt.Constants
 import tj.emin.livotestt.MainActivity
 import tj.emin.livotestt.data.FirebaseRepository
+import tj.emin.livotestt.data.dataStore
 import tj.emin.livotestt.data.model.User
+import tj.emin.livotestt.data.setUserEmail
 import tj.emin.livotestt.ui.common.TextField
 import tj.emin.livotestt.ui.common.SpacerBetweenObjects
 import tj.emin.livotestt.ui.navigation.Screen
@@ -38,6 +42,7 @@ fun SignUpScreen(activity: Activity, navController: NavHostController) {
     ) {
         val focusManager = LocalFocusManager.current
         val context = LocalContext.current
+        val scope = rememberCoroutineScope()
 
         val userName = remember { mutableStateOf("") }
         val userEmail = remember { mutableStateOf("") }
@@ -78,6 +83,7 @@ fun SignUpScreen(activity: Activity, navController: NavHostController) {
         )
         SpacerBetweenObjects()
 
+        // Sign up
         Button(
             modifier = Modifier.fillMaxWidth(),
             onClick = {
@@ -86,7 +92,12 @@ fun SignUpScreen(activity: Activity, navController: NavHostController) {
                     userEmail.value,
                     userPassword.value,
                     User(userEmail.value, userPhone.value, userName.value),
-                    onSuccess = { navController.navigate(Screen.SignInScreen.route) }
+                    onSuccess = {
+                        scope.launch {
+                            setUserEmail(context.dataStore, userEmail.value)
+                        }
+                        navController.navigate(Screen.SignInScreen.route)
+                    }
                 )
             }
         ) {

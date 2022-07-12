@@ -1,6 +1,5 @@
 package tj.emin.livotestt.ui.navigation
 
-import android.app.Activity
 import androidx.compose.runtime.Composable
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.NavHostController

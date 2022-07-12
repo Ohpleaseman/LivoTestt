@@ -1,6 +1,7 @@
 package tj.emin.livotestt.ui.screens.home
 
 import android.app.Activity
+import android.content.Intent
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
@@ -12,13 +13,21 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.launch
+import tj.emin.livotestt.AuthActivity
 import tj.emin.livotestt.Constants
+import tj.emin.livotestt.MainActivity
 import tj.emin.livotestt.data.FirebaseRepository
+import tj.emin.livotestt.data.NO_VALUE_STRING
+import tj.emin.livotestt.data.dataStore
 import tj.emin.livotestt.data.model.User
+import tj.emin.livotestt.data.setUserEmail
 import tj.emin.livotestt.ui.common.MediumSpacer
 import tj.emin.livotestt.ui.common.SpacerBetweenObjects
 import tj.emin.testapp.R
@@ -31,6 +40,8 @@ fun HomeScreen(activity: Activity) {
             .padding(Constants.SCREEN_PADDING),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        val context = LocalContext.current
+        val scope = rememberCoroutineScope()
         val ourUser = remember { mutableStateOf(User()) }
 
         Text(text = stringResource(id = R.string.welcome), fontSize = 24.sp)
@@ -63,10 +74,13 @@ fun HomeScreen(activity: Activity) {
         }
         MediumSpacer()
 
+        // Sign out
         Button(
             modifier = Modifier.fillMaxWidth(),
             onClick = {
-                FirebaseRepository.logOut()
+                FirebaseRepository.signOut()
+                scope.launch { setUserEmail(context.dataStore, NO_VALUE_STRING) }
+                context.startActivity(Intent(context, AuthActivity::class.java))
                 activity.finish()
             }
         ) {

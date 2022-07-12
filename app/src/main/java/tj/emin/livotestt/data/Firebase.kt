@@ -51,7 +51,7 @@ object FirebaseRepository {
         else Toast.makeText(activity, R.string.field_empty, Toast.LENGTH_SHORT).show()
     }
 
-    fun logOut() {
+    fun signOut() {
         auth.signOut()
     }
 
